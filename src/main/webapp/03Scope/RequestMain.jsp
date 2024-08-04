@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <%
 request.setAttribute("requestString", "request 영역의 문자열");
-request.setAttribute("requestPersion", new Person("안중근", 31));
+request.setAttribute("requestPerson", new Person("안중근", 31));
 %>
 <html>
 <head>
@@ -18,5 +18,24 @@ request.setAttribute("requestPersion", new Person("안중근", 31));
 		request.removeAttribute("requestString");
 		request.removeAttribute("requestInteger");	//에러 없음
 	%>
+	
+	<h2>request 영역의 속성값 읽기</h2>
+	<%
+	Person rPerson = (Person)request.getAttribute("requestPerson");
+	%>
+	
+	<ul>
+		<li>String 객체 : <%=request.getAttribute("requestString") %></li>
+		<li>Person 객체 : <%=rPerson.getName() %>, <%=rPerson.getAge() %></li>
+	</ul>
+	
+	<h2>포워드된 페이지에서 request 영역 속성값 읽기</h2>
+	<%
+	//1. request로 부터 dispatcher를 얻음
+	//2. dispatcher를 통해 페이지를 포워딩함
+	RequestDispatcher rd = request.getRequestDispatcher("RequestForward.jsp?paramHan=한글&paramEng=English");
+	System.out.println(rd.getClass().getName());
+	rd.forward(request, response);
+	 %>
 </body>
 </html>
